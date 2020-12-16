@@ -180,3 +180,9 @@ ORDER BY Publisher;
 INSERT INTO `library`.book
 VALUES('9781234567897', 'The philosopher\'s stone', 'A', 1999, 1000);
 
+CREATE USER 'customer1'@'localhost' IDENTIFIED BY 'user_password';
+GRANT SELECT ON `library`.* TO 'customer1'@'localhost';
+
+CREATE USER 'librarian1'@'localhost' IDENTIFIED BY 'lib_password';
+GRANT SELECT ON `library`.* TO 'librarian1'@'localhost';
+GRANT INSERT ON `library`.* TO 'librarian1'@'localhost';

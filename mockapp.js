@@ -9,6 +9,31 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+login = () => {
+	var req;
+	app.post('/api/login', function(reqs, res) {
+		console.log("reqlogin"); console.log(reqs);
+		req = reqs
+	});
+	console.log("Received"); console.log(req);
+	return mysql.createConnection({
+		host: "localhost",
+		user: req.body.user,
+		password: req.body.password,
+		database : 'Library',
+		port     : '3306'
+	})
+}
+
+var con;
+app.post('/api/login', function(reqs, res) {
+	console.log("reqlogin"); console.log(reqs);
+	req = reqs
+});
+
+var con = login()
+console.log("Login successful")
+/*
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -16,6 +41,7 @@ var con = mysql.createConnection({
   database : 'Library',
   port     : '3306'
 });
+*/
 
 con.connect(function(err){
 	if (err) console.log('Error');
@@ -27,6 +53,7 @@ app.get('/api/books', (req, res) => {
   var sql = "SELECT * FROM book ORDER BY ISBNCode";
   con.query(sql, function(err, results) {
 		if (err) throw err;
+		console.log(results);
     res.json({books: results});
 	});
 	

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {AuthorForm} from './components/Form'
-
+import {BookTable} from './components/Table'
 
 class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      login: false,
       books: [],
       admins: [],
       authors: [],
@@ -14,6 +15,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+    
     axios.get('/api/books')
          .then(res => {
             const data = res.data;
@@ -33,8 +35,10 @@ class App extends Component {
             const data = res.data;
             this.setState({ authors: data.authors });
           })
-         .catch(error => console.log(error));          
+         .catch(error => console.log(error)); 
+             
   };
+
 
   handleInputChange = (event) => {
     const target = event.target;
@@ -70,6 +74,7 @@ class App extends Component {
       .catch(error => console.log(error));
   };
 
+
   render() {
     return(
       <div>
@@ -78,15 +83,8 @@ class App extends Component {
         <hr />
         
         <h1>Books</h1>
-        <ul>
-          {this.state.books.map(item => (
-            <li key={item.ISBNCode}>
-              <h2>{item.Title}</h2>
-              <div><b>Publisher:</b> {item.Publisher}</div>
-              <div>{item.NumPage} pages</div>
-            </li>
-          ))}
-        </ul>
+        <BookTable data = {this.state.books}/>
+        
         
         <h1>Site Admins:</h1>
         <ul>
