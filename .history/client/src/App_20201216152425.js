@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {AuthorForm} from './components/Form';
-import Taskbar from './components/taskbar/Taskbar';
+import {AuthorForm} from './components/Form'
 
 
 class App extends Component {
@@ -74,7 +73,6 @@ class App extends Component {
   render() {
     return(
       <div>
-        <Taskbar/>
         <h2>Add a new author</h2>
         <AuthorForm handleInputChange = {this.handleInputChange} handleInsertSubmit = {this.handleInsertAuthor}></AuthorForm>
         <hr />
@@ -90,7 +88,7 @@ class App extends Component {
           ))}
         </ul>
         
-        <h1>Site Admins:</h1>
+        <h1>Site Admin:</h1>
         <ul>
           {this.state.admins.map(item => (
             <li key={item.UId}>

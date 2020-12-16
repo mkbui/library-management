@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {AuthorForm} from './components/Form';
-import Taskbar from './components/taskbar/Taskbar';
+import {AuthorForm} from './components/Form'
+import {Taskbar} from './components/taskbar'
 
 
 class App extends Component {
@@ -75,6 +75,7 @@ class App extends Component {
     return(
       <div>
         <Taskbar/>
+
         <h2>Add a new author</h2>
         <AuthorForm handleInputChange = {this.handleInputChange} handleInsertSubmit = {this.handleInsertAuthor}></AuthorForm>
         <hr />
