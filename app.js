@@ -24,7 +24,7 @@ con.connect(function(err){
 });
 
 app.get('/api/books', (req, res) => {
-  var sql = "SELECT * FROM book ORDER BY ISBNCode";
+  var sql = "SELECT * FROM bookview ORDER BY ISBNCode";
   con.query(sql, function(err, results) {
 		if (err) throw err;
     res.json({books: results});

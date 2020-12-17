@@ -37,6 +37,12 @@ export function BookTable (props){
         field: 'NumPage',
         sort: 'disabled',
         width: 150,
+      },      
+      {
+        label: 'Authors',
+        field: 'authors',
+        sort: 'disabled',
+        width: 300,
       },
     ],
     rows: [...props.data] 
