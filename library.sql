@@ -3,7 +3,7 @@ CREATE DATABASE library;
 ALTER USER 'root'@'localhost' identified with mysql_native_password by 'root';
 
 USE library;
-CREATE TABLE IF NOT EXISTS `library`.`author`(7
+CREATE TABLE IF NOT EXISTS `library`.`author`(
 	AId VARCHAR(6) PRIMARY KEY NOT NULL UNIQUE,
     AName VARCHAR(30),
     ABirth DATE CHECK (ABirth LIKE '____-__-__')
