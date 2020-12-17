@@ -3,7 +3,7 @@ import axios from 'axios';
 import {AuthorForm} from './components/Form';
 import Taskbar from './components/taskbar/Taskbar';
 import {BookTable} from './components/Table';
-import FooterPage from './components/Footer/Footer';
+import FooterPage from './components'
 
 class App extends Component {
   constructor (props) {
@@ -98,7 +98,6 @@ class App extends Component {
             </li>
           ))}
         </ul>
-        <FooterPage/>
       </div>
     )
   }

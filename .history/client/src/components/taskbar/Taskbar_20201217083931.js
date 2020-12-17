@@ -5,7 +5,7 @@ import 'tachyons';
 const Taskbar = () => {
     return (
 <header className="sans-serif">
-  <div className="cover bg-left bg-center-l" style={{backgroundImage:"url(https://cdn.pixabay.com/photo/2016/08/24/16/20/books-1617327_1280.jpg)"}}>
+  <div className="cover bg-left bg-center-l" style={{backgroundImage:"url(http://mrmrs.github.io/photos/u/011.jpg)"}}>
     <div className="bg-black-80 pb5 pb6-m pb7-l">
       <nav className="dt w-100 mw8 center"> 
         <div className="dtc w2 v-mid pa3">
@@ -20,9 +20,9 @@ const Taskbar = () => {
         </div>
       </nav> 
       <div class="tc-l mt4 mt5-m mt6-l ph3">
-        <h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Bach Khoa Library</h1>
-        <h2 class="fw1 f3 white-80 mt3 mb4">Simple and efficient</h2>
-        <a class="f6 no-underline grow dib v-mid white ba b--white ph3 pv2 mb3" href="">Learn more</a>
+        <h1 class="f2 f1-l fw2 white-90 mb0 lh-title">This is your super impressive headline</h1>
+>
+        <a class="f6 no-underline grow dib v-mid white ba b--white ph3 pv2 mb3" href="">Secondary call to action</a>
       </div>
     </div>
   </div> 

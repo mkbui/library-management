@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
-import 'mdbreact';
+import 'mdbreact'
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
