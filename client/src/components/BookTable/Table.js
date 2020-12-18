@@ -1,9 +1,17 @@
 //https://stackoverflow.com/questions/55262167/passing-props-to-usestate-react
 
-import React, {Component, useState, useEffect} from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { MDBDataTableV5 } from 'mdbreact';
+import Datepicker from '../AuthorForm/DatePicker/DatePicker'
+import './Table.css'
 
-export function BookTable (props){
+export function BookTable(props) {
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  }
 
   const initState = {
     columns: [
@@ -19,7 +27,7 @@ export function BookTable (props){
       {
         label: 'Title',
         field: 'Title',
-        width: 370,
+        width: 170,
       },
       {
         label: 'Publisher',
@@ -37,20 +45,26 @@ export function BookTable (props){
         field: 'NumPage',
         sort: 'disabled',
         width: 150,
-      },      
+      },
       {
         label: 'Authors',
-        field: 'authors',
+        field: 'Authors',
         sort: 'disabled',
         width: 300,
-      },
+      }
     ],
-    rows: [...props.data] 
+    rows: [...props.data]
   }
   console.log(initState)
   const [datatable, setDatatable] = useState(initState)
 
-  useEffect (() => { setDatatable({ ...datatable, rows: [...props.data] }) }, [props.data])
+  useEffect(() => { setDatatable({ ...datatable, rows: [...props.data] }) }, [props.data])
 
-  return (<MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={datatable} searchTop searchBottom={false} />);
+  return (
+    <div class = "table-all">
+      <div class="table-container">
+        <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={6} pagesAmount={4} data={datatable} searchTop searchBottom={false}></MDBDataTableV5>
+        </div>
+    </div>
+  );
 }

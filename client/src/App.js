@@ -1,15 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import axios from 'axios';
-import {AuthorForm} from './components/Form';
-import Taskbar from './components/taskbar/Taskbar';
-import {BookTable} from './components/Table';
+// import {AuthorForm} from './components/Form';
+import { BookTable } from './components/BookTable/Table';
+// import { MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
+import {AuthorForm} from './components/AuthorForm/AuthorForm';
+import Taskbar from './components/Taskbar/Taskbar';
 import FooterPage from './components/Footer/Footer';
+import PopupHandle from './components/Popup/PopupHandle'
 
 class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
+    this.num = 0;
     this.state = {
-      login: false,
       books: [],
       admins: [],
       authors: [],
@@ -17,30 +20,27 @@ class App extends Component {
   };
 
   componentDidMount() {
-    
     axios.get('/api/books')
-         .then(res => {
-            const data = res.data;
-            this.setState({ books: data.books});
-          })
-         .catch(error => console.log(error));
- 
-    axios.get('/api/admins')
-         .then(res => {
-            const data = res.data;
-            this.setState({ admins: data.admins });
-          })
-         .catch(error => console.log(error));  
-         
-    axios.get('/api/authors')
-         .then(res => {
-            const data = res.data;
-            this.setState({ authors: data.authors });
-          })
-         .catch(error => console.log(error)); 
-             
-  };
+      .then(res => {
+        const data = res.data;
+        this.setState({ books: data.books });
+      })
+      .catch(error => console.log(error));
 
+    axios.get('/api/admins')
+      .then(res => {
+        const data = res.data;
+        this.setState({ admins: data.admins });
+      })
+      .catch(error => console.log(error));
+
+    axios.get('/api/authors')
+      .then(res => {
+        const data = res.data;
+        this.setState({ authors: data.authors });
+      })
+      .catch(error => console.log(error));
+  };
 
   handleInputChange = (event) => {
     const target = event.target;
@@ -62,44 +62,34 @@ class App extends Component {
     event.preventDefault();
 
     const newAuthor = {
-        aid: this.state.aid,
-        aname: this.state.aname,
-        abirth: this.state.abirth
+      aid: this.state.aid,
+      aname: this.state.aname,
+      abirth: this.state.abirth
     };
 
     axios.post('/api/insert/authors', newAuthor)
       .then(res => {
         let authors = this.state.authors;
-        authors = [newAuthor,...authors];
-        this.setState({ ...this.state, authors: authors });
+        authors = [newAuthor, ...authors];
+        this.setState({ authors: authors });
       })
       .catch(error => console.log(error));
   };
 
-
   render() {
-    return(
+    return (
       <div>
-        <Taskbar/>
+        <Taskbar />
         <h2>Add a new author</h2>
         <AuthorForm handleInputChange = {this.handleInputChange} handleInsertSubmit = {this.handleInsertAuthor}></AuthorForm>
-        <hr />
-        
-        <h1>Books</h1>
-        <BookTable data = {this.state.books}/>
-        
-        
-        <h1>Site Admins:</h1>
-        <ul>
-          {this.state.admins.map(item => (
-            <li key={item.UId}>
-              <h2>{item.UName}</h2>
-              <div>{item.UAddress}</div>
-            </li>
-          ))}
-        </ul>
-        <FooterPage/>
-      </div>
+
+        <h1>Book List</h1>
+        <BookTable data={this.state.books} />
+        {/* <PopupHandle></PopupHandle> */}
+
+        {/* <h1>Site Admins:</h1> <MDBTable hover bordered> <MDBTableHead color="primary-color"> <tr> <th>ID</th> <th>Name</th> <th>Address</th> </tr> </MDBTableHead> <MDBTableBody> {this.state.admins.map(item => ( <tr key={item.UId}> <th>{item.UId}</th> <th>{item.UName}</th> <th>{item.UAddress}</th> <th>{item.NumPage}</th> </tr> ))} </MDBTableBody> </MDBTable> */}
+        <FooterPage />
+      </div >
     )
   }
 };
@@ -109,7 +99,7 @@ export default App;
 
 /*
 <BookForm handleInputChange = {this.handleInputChange} handleBookAuthorChange = {this.handleBookAuthorChange} handleInsertSubmit = {this.handleInsertBook} authorlist = {this.state.authors}></BookForm>
-        
+
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
