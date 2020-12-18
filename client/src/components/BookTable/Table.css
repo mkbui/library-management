@@ -1,0 +1,45 @@
+.table-all{
+    background-image: url(https://fullhdpictures.com/wp-content/uploads/2015/03/Library-Pictures.jpg);
+    width: 100%;
+}
+
+.table-container{
+    background-color: rgba(0, 0, 0, 0.603); 
+    width: 80%;
+    margin: auto;
+    /* display: flex;
+    justify-content: center;
+    align-items: center;  */
+}
+
+.page-item.disabled .page-link {
+    color: rgba(255, 255, 255, 0.219);
+    pointer-events: none;
+    cursor: auto;
+    background-color: rgba(255, 255, 255, 0.219);
+    border-color:  rgba(255, 255, 255, 0.219);
+}
+
+.row {
+    background-color: rgba(255, 255, 255, 0.219);
+    color: white;
+}
+
+.form-control-sm {
+    margin-left: 100px;
+    background-color: white;
+}
+
+.mdb-datatable-info {
+    /* -ms-flex-pack: justify!important; */
+    /* background-color: rgba(255, 255, 255, 0.219); */
+    color: white;
+}
+
+.table {
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    color: white;
+    /* background-color: rgba(255, 255, 255, 0.219); */
+} 
