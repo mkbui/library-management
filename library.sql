@@ -55,8 +55,9 @@ CREATE TABLE IF NOT EXISTS `library`.`educational`(
 );
 
 CREATE TABLE IF NOT EXISTS `library`.`subject`(
-	ISBNCode VARCHAR(13) NOT NULL PRIMARY KEY,
-    Subject VARCHAR(15),
+	ISBNCode VARCHAR(13) NOT NULL,
+    `Subject` VARCHAR(15),
+	PRIMARY KEY (ISBNCode, `Subject`),
     FOREIGN KEY(ISBNCode) REFERENCES `library`.`educational`(ISBNCode)
 );
 
@@ -204,6 +205,20 @@ VALUES('9781234567897','Adventure'),
 ('9781234567123','Adventure'),
 ('9781234567123','Teenage');
 
+-- Insert in other categories	
+INSERT INTO `library`.educational 
+VALUES ('9781234567897', 'Secondary', 'UK'),
+('9781234569845', 'Research', 'US')
+;
+
+INSERT INTO `library`.`subject`
+VALUES ('9781234567897', 'Literature'),
+('9781234567897', 'Chemistry'),
+('9781234569845', 'Philosophy');
+
+INSERT INTO `library`.journal 
+VALUE ('9781234566428', '1999-12-12');
+
 -- Update book
 UPDATE `library`.book
 SET Title = 'The philosopher stone'
@@ -308,7 +323,7 @@ CREATE FUNCTION popularity (ISBN VARCHAR(13))
 BEGIN
 	DECLARE res INTEGER;
     # If ISBN Code doesn't exist return -1 (for application handling)
-	IF (SELECT COUNT(*) FROM `library`.book b WHERE b.ISBNCode = ISBN = 0) THEN RETURN -1; 
+	IF ( (SELECT COUNT(*) FROM `library`.book b WHERE b.ISBNCode = ISBN) = 0) THEN RETURN -1; 
 	ELSE 
 		SELECT COUNT(*) INTO res FROM `library`.record r WHERE r.ISBNCode = ISBN;
 		RETURN res;
@@ -317,9 +332,15 @@ END
 //
 DELIMITER;
 
+
+SELECT ISBNCode, Title, Publisher, popularity(ISBNCode) AS Popularity FROM `library`.book;
 SELECT popularity('9781234567897');
 SELECT popularity('9781234569845');
 SELECT popularity('9781234569843');
+
+SELECT * FROM book;
+
+
 
 -- Procedures
 -- Query record and return the number of overdue record from a customer
@@ -337,6 +358,30 @@ END
 DELIMITER ;
 
 CALL getcopylist('9781234567897');
+
+-- ### Detailed Book Information ### --
+DELIMITER //
+DROP PROCEDURE IF EXISTS getbookdetail //
+CREATE PROCEDURE getbookdetail (ISBN VARCHAR(13))   
+BEGIN 
+	SELECT b.ISBNCode, b.Title, b.Publisher, b.`Year`, b.NumPage, b.Authors, IF(e.ISBNCode, 1, 0) AS Educational, e.EduLevel, e.Refer, e.Subjects, IF(f.ISBNCode, 1, 0) AS fiction, f.Genres, IF(j.ISBNCode, 1, 0) AS Journal, j.PublishDate  
+	FROM bookview b 
+    LEFT JOIN educationview e ON b.ISBNCode = e.ISBNCode
+    LEFT JOIN fictionview f ON b.ISBNCode = f.ISBNCode
+    LEFT JOIN journalview j ON b.ISBNCode = j.ISBNCode
+    WHERE b.ISBNCode = ISBN
+	GROUP BY b.ISBNCode;
+END
+//
+DELIMITER ;
+
+CALL getbookdetail('9781234567897');
+
+SELECT * FROM book WHERE Title LIKE 'T%';
+ALTER TABLE book ADD INDEX TitleSearch (Title);
+SELECT * FROM book WHERE Title LIKE 'T%';
+
+ALTER TABLE `library`.customer ADD INDEX NameSearch(UName, UBirth);
 
 /*
 DELIMITER //
