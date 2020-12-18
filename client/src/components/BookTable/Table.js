@@ -3,19 +3,48 @@
 import React, { Component, useState, useEffect } from 'react';
 import { MDBDataTableV5, MDBBtn } from 'mdbreact';
 import './Table.css'
+import axios from 'axios';
 
 export function BookTable(props) {
 
+  var details;
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
   }
 
-  const bookInfo = (book) => {
+  async function getDetail (book) {
+    const request = {isbn: book.ISBNCode}
+    try {
+      let res = await axios.post('/api/books/detail', request)
+      console.log(res.data.detail[0][0])
+      return res.data.detail[0][0]
+    }
+    catch (error) { console.log(error); }
   }
 
-  props.data.map(row => row.View = <button onClick = {bookInfo(row)}>View</button>)
+  async function getCopy (book) {
+    const request = {isbn: book.ISBNCode}
+    try {
+      let res = await axios.post('/api/books/copy', request)
+      return res.data.copylist[0]
+    }
+    catch (error) { console.log(error); }
+  }
+
+  const bookInfo = (book) => {
+    var detail, copy;
+    getDetail(book).then(details => {
+      getCopy(book).then(copy => {
+        console.log("Detail: ", details)
+        console.log("Copylist: ", copy)
+        // Do STH here
+      })
+    })
+  }
+
+  props.data.map(row => row.View = <button onClick = {() => bookInfo(row)}>View</button>)
 
   const initState = {
     columns: [

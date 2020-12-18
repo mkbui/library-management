@@ -78,7 +78,8 @@ app.post('/api/books/detail', (req, res) => {
   var sql = "CALL getbookdetail('" + req.body.isbn + "');";
   con.query(sql, function(err, results) {
 		if (err) throw err;
-    res.json({detail: results});
+		res.json({detail: results});
+		console.log("DEtail", results)
 	});
 	
 	console.log("Res detail: " + req.body.isbn);
