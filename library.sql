@@ -231,7 +231,7 @@ ORDER BY Publisher;
 -- Tuning and manipulation
 
 -- Create View bookview (for general book list)
-CREATE OR REPLACE VIEW bookview AS SELECT b.ISBNCode, b.Title, b.Publisher, b.Year, b.NumPage, GROUP_CONCAT(a.AName) AS Authors
+CREATE OR REPLACE VIEW bookview AS SELECT b.ISBNCode, b.Title, b.Publisher, b.Year, b.NumPage, GROUP_CONCAT(a.AName) AS `Authors`
 	FROM `library`.book b 
     LEFT JOIN `library`.`write` w ON b.ISBNCode = w.ISBNCode 
     LEFT JOIN `library`.author a ON w.AId = a.AId
@@ -338,7 +338,7 @@ SELECT popularity('9781234567897');
 SELECT popularity('9781234569845');
 SELECT popularity('9781234569843');
 
-SELECT * FROM book;
+SELECT * FROM bookview;
 
 
 
