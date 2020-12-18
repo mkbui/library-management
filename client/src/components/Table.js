@@ -5,6 +5,7 @@ import { MDBDataTableV5 } from 'mdbreact';
 
 export function BookTable (props){
 
+
   const initState = {
     columns: [
       {
@@ -47,7 +48,7 @@ export function BookTable (props){
     ],
     rows: [...props.data] 
   }
-  console.log(initState)
+  //console.log(initState)
   const [datatable, setDatatable] = useState(initState)
 
   useEffect (() => { setDatatable({ ...datatable, rows: [...props.data] }) }, [props.data])

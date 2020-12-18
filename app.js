@@ -34,6 +34,7 @@ app.get('/api/books', (req, res) => {
 	console.log(res.data);
 });
 
+
 app.get('/api/admins', (req, res) => {
 	
 	var sql = "SELECT * FROM admin";
@@ -72,6 +73,28 @@ app.post('/api/insert/authors', function(req, res) {
   });
 });
  
+
+app.post('/api/books/detail', (req, res) => {
+  var sql = "CALL getbookdetail('" + req.body.isbn + "');";
+  con.query(sql, function(err, results) {
+		if (err) throw err;
+    res.json({detail: results});
+	});
+	
+	console.log("Res detail: " + req.body.isbn);
+	console.log(res.data);
+});
+
+app.post('/api/books/copy', (req, res) => {
+  var sql = "CALL getcopylist('" + req.body.isbn + "');";
+  con.query(sql, function(err, results) {
+		if (err) throw err;
+    res.json({copylist: results});
+	});
+	
+	console.log("Res detail: " + req.body.isbn);
+	console.log(res.data);
+});
 
 /*
 app.get('/api/test', (req, res) => {
