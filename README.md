@@ -49,6 +49,15 @@ Axios is a Javascript library used to make HTTP requests from node.js or XMLHttp
 npm install –save axios
 ```
 
+### Manually Install Other Packages
+If your package.json cannot load, you have to manually install these packages.
+```sh
+npm install -save mdbreact
+```
+```sh
+npm install react-datepicker --save
+```
+
 ### Run the app
 After install necessary libraries, now we can run the app by run this script at the root of project `/React-server-and-client-master/`:
 ```sh
