@@ -1,3 +1,19 @@
+.add-button{
+  color: black;
+  font-size: 2rem;
+  font-weight: 600;
+  background-color: white;
+  border: 3px solid black;
+  padding: 2rem;
+}
+
+.add-button:hover{
+  color: white;
+  background-color: black;
+  transition: all;
+  transition-duration: 0.5s;
+}
+
 .popup-box {
     position: fixed;
     background: #00000050;
@@ -12,7 +28,7 @@
     width: 70%;
     margin: 0 auto;
     height: auto;
-    max-height: 70vh;
+    max-height: 85vh;
     margin-top: calc(100vh - 85vh - 20px);
     background: #fff;
     border-radius: 4px;
@@ -28,11 +44,11 @@
     right: calc(15% - 30px);
     top: calc(100vh - 85vh - 33px);
     background: #ededed;
-    width: 25px;
-    height: 25px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    line-height: 20px;
+    line-height: 35px;
     text-align: center;
     border: 1px solid #999;
-    font-size: 20px;
+    font-size: 40px;
   }

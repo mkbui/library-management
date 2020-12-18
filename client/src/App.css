@@ -20,3 +20,16 @@
 .App-link {
   color: #09d3ac;
 }
+
+.title{
+  text-align: center;
+}
+
+.author-form{
+  width: 50%;
+  display: flex;
+  margin: 4rem auto;
+  /* border: 5px solid black; */
+  align-items: center;
+  justify-content: center;
+}

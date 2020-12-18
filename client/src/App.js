@@ -1,12 +1,11 @@
 import React, { Component, useState } from 'react';
 import axios from 'axios';
-// import {AuthorForm} from './components/Form';
 import { BookTable } from './components/BookTable/Table';
-// import { MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
-import {AuthorForm} from './components/AuthorForm/AuthorForm';
+import { AuthorForm } from './components/AuthorForm/AuthorForm';
 import Taskbar from './components/Taskbar/Taskbar';
 import FooterPage from './components/Footer/Footer';
 import PopupHandle from './components/Popup/PopupHandle'
+import './App.css'
 
 class App extends Component {
   constructor(props) {
@@ -80,12 +79,14 @@ class App extends Component {
     return (
       <div>
         <Taskbar />
-        <h2>Add a new author</h2>
-        <AuthorForm handleInputChange = {this.handleInputChange} handleInsertSubmit = {this.handleInsertAuthor}></AuthorForm>
 
-        <h1>Book List</h1>
+        <div className="author-form">
+          <PopupHandle></PopupHandle>
+        </div>
+
+
+        <div className="title"><h1>Book List</h1></div>
         <BookTable data={this.state.books} />
-        {/* <PopupHandle></PopupHandle> */}
 
         {/* <h1>Site Admins:</h1> <MDBTable hover bordered> <MDBTableHead color="primary-color"> <tr> <th>ID</th> <th>Name</th> <th>Address</th> </tr> </MDBTableHead> <MDBTableBody> {this.state.admins.map(item => ( <tr key={item.UId}> <th>{item.UId}</th> <th>{item.UName}</th> <th>{item.UAddress}</th> <th>{item.NumPage}</th> </tr> ))} </MDBTableBody> </MDBTable> */}
         <FooterPage />

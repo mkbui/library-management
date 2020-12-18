@@ -1,8 +1,7 @@
 //https://stackoverflow.com/questions/55262167/passing-props-to-usestate-react
 
 import React, { Component, useState, useEffect } from 'react';
-import { MDBDataTableV5 } from 'mdbreact';
-import Datepicker from '../AuthorForm/DatePicker/DatePicker'
+import { MDBDataTableV5, MDBBtn } from 'mdbreact';
 import './Table.css'
 
 export function BookTable(props) {
@@ -13,9 +12,18 @@ export function BookTable(props) {
     setIsOpen(!isOpen);
   }
 
+  const bookInfo = (book) => {
+  }
+
+  props.data.map(row => row.View = <button onClick = {bookInfo(row)}>View</button>)
 
   const initState = {
     columns: [
+      {
+        label: 'View',
+        field: 'View',
+        width: 250,
+      },
       {
         label: 'ISBNCode',
         field: 'ISBNCode',
@@ -54,16 +62,19 @@ export function BookTable(props) {
         width: 300,
       }
     ],
-    rows: [...props.data]
+    rows: [
+       ...props.data
+    ]
   }
   //console.log(initState)
   const [datatable, setDatatable] = useState(initState)
 
-  useEffect(() => { setDatatable({ ...datatable, rows: [...props.data] }) }, [props.data])
+  useEffect(() => { setDatatable({ ...datatable, rows: [...props.data ] }) }, [props.data])
+  // useEffect(() => { setDatatable({ ...datatable, rows: [...item] }) }, [item])
 
   return (
-    <div class = "table-all">
-      <div class="table-container">
+    <div className = "table-all">
+      <div className="table-container">
         <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={6} pagesAmount={4} data={datatable} searchTop searchBottom={false}></MDBDataTableV5>
         </div>
     </div>
