@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Popup from './Popup.js';
 import './Popup.css'
-import {AuthorForm} from '../AuthorForm/AuthorForm'
+import {BookForm} from '../Form/Form'
  
-function PopupHandle() {
+function PopupHandle(props) {
   const [isOpen, setIsOpen] = useState(false);
  
   const togglePopup = () => {
@@ -19,7 +19,7 @@ function PopupHandle() {
     />
     {isOpen && <Popup
       content={<>
-        <AuthorForm></AuthorForm>
+        <BookForm authors = {props.authors} handleSubmit = {props.handleSubmit}></BookForm>
       </>}
       handleClose={togglePopup}
     />}
