@@ -95,7 +95,8 @@ CREATE TABLE IF NOT EXISTS `library`.`customer`(
     UBirth DATE,
     UAddress VARCHAR(50),
     Instistuion VARCHAR(15),
-    Phone INT
+    Phone INT,
+    INDEX (UName, UBirth)
 );
 
 CREATE TABLE IF NOT EXISTS `library`.`record`(
@@ -137,6 +138,7 @@ VALUES('a', 'Allison', '1999-07-18', 'street a'),
 ('e', 'Mohamed', '1999-02-17', 'street e')
 ;
 
+
 -- Insert customer 
 INSERT INTO `library`.customer
 VALUES('c1', 'Khanh Tran', '2000-10-10', 'HCM', 'HCMUT', 120120120),
@@ -144,6 +146,11 @@ VALUES('c1', 'Khanh Tran', '2000-10-10', 'HCM', 'HCMUT', 120120120),
 ('c3', 'Michael Lytorhiss', '1984-01-03', 'New Rd., NYC', NULL, 22131565),
 ('c4', 'John Doe', '1992-10-03', 'Lorem Ipsum, Dolor', 'UAEU', NULL)
 ;
+
+SELECT UId, UName, UBirth, UAddress 
+FROM `library`.customer 
+WHERE Instistuion = 'HCMUT' 
+ORDER BY UId;
 
 -- Insert branches
 INSERT INTO `library`.branch
@@ -189,6 +196,12 @@ VALUES('a1', '9781234567897'),
 ('b1', '9781234569845'),
 ('c1', '9781234566428'),
 ('d1', '9781234566428');
+
+SELECT a.AName, b.Title, b.`Year`, b.NumPage
+FROM `library`.book b 
+JOIN `library`.fiction f ON b.ISBNCode = f.ISBNCode AND b.`Year` > 2002
+JOIN `library`.`write` w ON b.ISBNCode = w.ISBNCode
+JOIN `library`.author a ON w.AId = a.AId AND a.AName LIKE 'B%';
 
 -- Insert fiction
 INSERT INTO `library`.fiction
@@ -343,7 +356,7 @@ SELECT * FROM bookview;
 
 
 -- Procedures
--- Query record and return the number of overdue record from a customer
+-- Query and return number of copies / available copies at each branch for a specified book
 DELIMITER //
 DROP PROCEDURE IF EXISTS getcopylist //
 CREATE PROCEDURE getcopylist (ISBN VARCHAR(13))   
@@ -353,10 +366,12 @@ BEGIN
 		JOIN `library`.book_copy cp ON b.ISBNCode = cp.ISBNCode AND b.ISBNCode = ISBN
 		JOIN `library`.branch br ON cp.BId = br.BId
 		GROUP BY br.BId;
+	SELECT 'Query Successful!' AS MessageCode;
 END
 //
 DELIMITER ;
 
+-- Example call with a book in database
 CALL getcopylist('9781234567897');
 
 -- ### Detailed Book Information ### --
@@ -406,5 +421,5 @@ CREATE USER 'customer1'@'localhost' IDENTIFIED BY 'user_password';
 GRANT SELECT ON `library`.* TO 'customer1'@'localhost';
 
 CREATE USER 'librarian1'@'localhost' IDENTIFIED BY 'lib_password';
-GRANT SELECT ON `library`.* TO 'librarian1'@'localhost';
+GRANT SELECT ON `library`.book TO 'librarian1'@'localhost';
 GRANT INSERT ON `library`.* TO 'librarian1'@'localhost';

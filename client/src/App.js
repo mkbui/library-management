@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import axios from 'axios';
 import { BookTable } from './components/BookTable/Table';
-import { AuthorForm } from './components/AuthorForm/AuthorForm';
+import { BookForm } from './components/Form/Form';
 import Taskbar from './components/Taskbar/Taskbar';
 import FooterPage from './components/Footer/Footer';
 import PopupHandle from './components/Popup/PopupHandle'
@@ -81,7 +81,7 @@ class App extends Component {
         <Taskbar />
 
         <div className="author-form">
-          <PopupHandle></PopupHandle>
+          <PopupHandle authors = {this.state.authors} handleSubmit = {(x) => alert('Submitted ', x)}></PopupHandle>
         </div>
 
 

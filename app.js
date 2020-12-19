@@ -67,21 +67,55 @@ app.post('/api/insert/authors', function(req, res) {
           +   req.body.aid+ "','" 
           +   req.body.aname + "','" 
 					+   req.body.abirth+"')";
-  con.query(sql, function (err, results) {
+  try {con.query(sql, function (err, results) {
     if(err) throw err;
     res.json({authors: results});
-  });
+	});
+	} catch (err){
+		console.log('Error: ', err)
+	}
 });
  
+app.post('/api/insert/books', function(req, res) {
+  var sql = "INSERT "
+          + "INTO `library`.`book` "
+          + "VALUES('"
+          +   req.body.isbn+ "','" 
+          +   req.body.title + "','" 
+					+   req.body.publisher + "'," 
+					+		req.body.year + "," 
+					+ 	req.body.numpages +")";
+
+	con.query(sql, function(err, results) {
+		if (err) throw err;
+		if (req.body.authorlist.length > 0){
+			var sql2 = "INSERT INTO `library`.`write` VALUES" 
+				+ req.body.authorlist.map(a => "('"+a+"','"+req.body.isbn+"')").join(',');
+
+			con.query(sql2, function(err, results2){
+				if (err) throw err;
+				res.json({response: results + results2})
+			});
+		}				
+		else {
+		res.json({response: results});
+		}
+	});
+});
+
 
 app.post('/api/books/detail', (req, res) => {
   var sql = "CALL getbookdetail('" + req.body.isbn + "');";
-  con.query(sql, function(err, results) {
+  try {con.query(sql, function(err, results) {
 		if (err) throw err;
 		res.json({detail: results});
-		console.log("DEtail", results)
+		console.log("Detail", results)
 	});
-	
+	}
+	catch (err){
+		console.log('Error: ', err)
+	}
+
 	console.log("Res detail: " + req.body.isbn);
 	console.log(res.data);
 });

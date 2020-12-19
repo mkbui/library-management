@@ -104,7 +104,7 @@ export function BookTable(props) {
   return (
     <div className = "table-all">
       <div className="table-container">
-        <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={6} pagesAmount={4} data={datatable} searchTop searchBottom={false}></MDBDataTableV5>
+        <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={datatable} searchTop searchBottom={false}></MDBDataTableV5>
         </div>
     </div>
   );
