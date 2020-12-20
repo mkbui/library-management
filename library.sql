@@ -11,11 +11,13 @@ CREATE TABLE IF NOT EXISTS `library`.`author`(
 
 CREATE TABLE IF NOT EXISTS `library`.`book`(
 	ISBNCode VARCHAR(13) PRIMARY KEY NOT NULL UNIQUE,
-    Title VARCHAR(30),
+    Title VARCHAR(100),
     Publisher VARCHAR(30),
     Year INT,
     NumPage INT
 );
+
+ALTER TABLE `library`.book MODIFY Title VARCHAR(100);
 
 CREATE TABLE IF NOT EXISTS `library`.`write`(
 	AId VARCHAR(6) NOT NULL,
@@ -129,6 +131,11 @@ SELECT * FROM `library`.record;
 SELECT * FROM `library`.`subject`;
 SELECT * FROM `library`.`write`;
 
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM `write` w WHERE w.ISBNCode NOT LIKE '978123%';
+DELETE FROM `library`.`book` b WHERE b.ISBNCode NOT LIKE '978123%';
+
+
 -- Insert admin
 INSERT INTO `library`.admin
 VALUES('a', 'Allison', '1999-07-18', 'street a'),
@@ -137,7 +144,6 @@ VALUES('a', 'Allison', '1999-07-18', 'street a'),
 ('d', 'Teddy', '1983-10-02', 'street d'),
 ('e', 'Mohamed', '1999-02-17', 'street e')
 ;
-
 
 -- Insert customer 
 INSERT INTO `library`.customer
@@ -185,8 +191,10 @@ VALUES('9781234567897', 1, 'b1', 1),
 ('9781234567123', 2, 'b2', 1),
 ('9781233486897', 1, 'b1', 1),
 ('9781234566428', 1, 'b1', 1),
-('9781234566428', 2, 'b1', 0)
+('9781234566428', 2, 'b1', 0),
+('9781234569845', 1, 'b2', 1)
 ;
+UPDATE book_copy SET Available = 1 WHERE ISBNCode = '9781234569845';
 
 -- Insert write 
 INSERT INTO `library`.`write`
@@ -289,13 +297,13 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
 	ELSE 
 		IF ( (SELECT COUNT(*) FROM `library`.educational e WHERE e.ISBNCode = NEW.ISBNCode AND e.EduLevel = 'Research' > 0) 
-		 AND (SELECT MAX(Institution) FROM `library`.Customer c WHERE c.UId = NEW.UId = NULL))
+		 AND ((SELECT MAX(Instistuion) FROM `library`.Customer c WHERE c.UId = NEW.UId) IS NULL))
 			THEN 
 				SET msg = concat('Record insertion error: Customer is not allowed to access research material ', cast(NEW.ISBNCode AS CHAR), ', ', cast(NEW.UId AS CHAR));
 				SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
             ELSE 
 				UPDATE `library`.book_copy SET Available = 0 WHERE book_copy.CopyNumber = NEW.CopyNumber AND book_copy.ISBNCode = NEW.ISBNCode;
-			END IF;
+            END IF;
 	END IF;
 END
 //
@@ -305,7 +313,6 @@ CREATE TRIGGER before_insert_customer
 	BEFORE INSERT ON `library`.customer
 	FOR EACH ROW
 BEGIN
-	DECLARE msg VARCHAR(128);
     IF ( DATEDIFF(CURDATE(), DATE(NEW.UBirth)) < (15 * 365 + 3)) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: To register customer must be over 15 years old!';
 	END IF;
@@ -315,15 +322,18 @@ END
 DELIMITER;
 
 -- Test trigger insert record
+SELECT * FROM educational;
 SELECT * FROM book_copy;
 INSERT INTO `library`.`record`
 VALUE('1', '9781234567897', 1, '2020-10-10', '2022-10-10', '2020-10-24', 'c1');
 INSERT INTO `library`.`record`
-VALUE('1', '9781234567897', 1, '2020-10-12', NULL, '2020-10-19', 'c2');
-
+VALUE('2', '9781234569845', 1, '2020-10-12', NULL, '2020-10-19', 'c3');
+SELECT * FROM customer;
+DELETE FROM record WHERE RId = '2';
+UPDATE book_copy SET Available = 1 WHERE ISBNCode = '9781234569845';
 -- Test trigger insert customer 
 INSERT INTO `library`.customer 
-VALUE('c5', 'Lil Kidd', '2022-11-13', 'Street Gang', 'Pain', NULL);
+VALUE('c5', 'Lil Kidd', '2012-11-13', 'Street Gang', 'Pain', NULL);
 
 -- Function
 -- Built-in fuctions used: CONCAT, CAST, DATE, SYSDATE, COUNT, SUM, ... 
@@ -392,12 +402,21 @@ DELIMITER ;
 
 CALL getbookdetail('9781234567897');
 
-SELECT * FROM book WHERE Title LIKE 'T%';
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM `write` w WHERE w.ISBNCode NOT LIKE '978123%';
+DELETE FROM `library`.`book` b WHERE b.ISBNCode NOT LIKE '978123%';
+SHOW INDEX FROM book;
+ALTER TABLE book DROP INDEX TitleSearch;
+SELECT * FROM book WHERE Title LIKE 'Dr.%';
 ALTER TABLE book ADD INDEX TitleSearch (Title);
-SELECT * FROM book WHERE Title LIKE 'T%';
+SELECT * FROM book WHERE Title LIKE 'Dr.%';
 
 ALTER TABLE `library`.customer ADD INDEX NameSearch(UName, UBirth);
 
+SELECT ISBNCode, Title, NumPage FROM `library`.book WHERE `year`=0 
+	UNION SELECT UNION SELECT * FROM (SELECT 1)a JOIN (SELECT 2)b JOIN (SELECT 3)c FROM information_schema.tables; #;
+    
+SELECT * FROM (SELECT 1)book JOIN (SELECT 2)b JOIN (SELECT 3)c;    
 /*
 DELIMITER //
 DROP PROCEDURE IF EXISTS reviewrecord //
