@@ -88,7 +88,6 @@ class App extends Component {
         <div className="title"><h1>Book List</h1></div>
         <BookTable data={this.state.books} />
 
-        {/* <h1>Site Admins:</h1> <MDBTable hover bordered> <MDBTableHead color="primary-color"> <tr> <th>ID</th> <th>Name</th> <th>Address</th> </tr> </MDBTableHead> <MDBTableBody> {this.state.admins.map(item => ( <tr key={item.UId}> <th>{item.UId}</th> <th>{item.UName}</th> <th>{item.UAddress}</th> <th>{item.NumPage}</th> </tr> ))} </MDBTableBody> </MDBTable> */}
         <FooterPage />
       </div >
     )
