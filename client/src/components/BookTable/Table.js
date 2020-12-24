@@ -4,6 +4,7 @@ import React, { Component, useState, useEffect } from 'react';
 import { MDBDataTableV5, MDBBtn } from 'mdbreact';
 import './Table.css'
 import axios from 'axios';
+import BookInfoHandle from '../BookInfoHandle/BookInfoHandle'
 
 export function BookTable(props) {
 
@@ -14,8 +15,8 @@ export function BookTable(props) {
     setIsOpen(!isOpen);
   }
 
-  async function getDetail (book) {
-    const request = {isbn: book.ISBNCode}
+  async function getDetail(book) {
+    const request = { isbn: book.ISBNCode }
     try {
       let res = await axios.post('/api/books/detail', request)
       console.log(res.data.detail[0][0])
@@ -24,8 +25,8 @@ export function BookTable(props) {
     catch (error) { console.log(error); }
   }
 
-  async function getCopy (book) {
-    const request = {isbn: book.ISBNCode}
+  async function getCopy(book) {
+    const request = { isbn: book.ISBNCode }
     try {
       let res = await axios.post('/api/books/copy', request)
       return res.data.copylist[0]
@@ -39,12 +40,25 @@ export function BookTable(props) {
       getCopy(book).then(copy => {
         console.log("Detail: ", details)
         console.log("Copylist: ", copy)
-        // Do STH here
+        if (details.Education == 1) {
+          // return details.EduLevel
+          detail["EduLevel"] = details.EduLevel
+        }
+        if (details.Journal == 1) {
+          // return details.PublishDate
+          detail["PublishDate"] = details.PublishDate
+        }
+        if (details.Fiction == 1) {
+          // return details.Genres
+          detail["Genres"] = details.Genres
+        }
+        return detail
       })
     })
   }
 
-  props.data.map(row => row.View = <button onClick = {() => bookInfo(row)}>View</button>)
+  props.data.map(row => row.View = <BookInfoHandle data={row} ></BookInfoHandle>)
+  // props.data.map(row => bookInfo(row))
 
   const initState = {
     columns: [
@@ -92,20 +106,20 @@ export function BookTable(props) {
       }
     ],
     rows: [
-       ...props.data
+      ...props.data
     ]
   }
   //console.log(initState)
   const [datatable, setDatatable] = useState(initState)
 
-  useEffect(() => { setDatatable({ ...datatable, rows: [...props.data ] }) }, [props.data])
+  useEffect(() => { setDatatable({ ...datatable, rows: [...props.data] }) }, [props.data])
   // useEffect(() => { setDatatable({ ...datatable, rows: [...item] }) }, [item])
 
   return (
-    <div className = "table-all">
+    <div className="table-all">
       <div className="table-container">
         <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={datatable} searchTop searchBottom={false}></MDBDataTableV5>
-        </div>
+      </div>
     </div>
   );
 }
