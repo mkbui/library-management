@@ -1,6 +1,7 @@
-# React Server and Client
-This project is a simple way to create API by Express.js, then send a message from the server to the client.<br>
-Tutorial avaiable at [https://hocwebchuan.com](https://hocwebchuan.com/tutorial/reactjs/reactjs_express_api.php)
+# Library Management System using MySQL Database Server
+This project serves as an application of Database System knowledge into real-life softwares. The code aims to implement a web application using a Client-Server structure, where the Server stores and handles transactions with a MySQL database management system. The database employs a relational model with supported normalization, stored procedures / triggers, views, indexing, and security measures. The server is implemented using Node and Express, along with imported packages from *mysql, axios,...* to handle operations. The client is implemented with React.js front-end framework.
+
+The structure of the application, mostly regarding the client-server packages and initiation, were applied from an online tutorial at [https://hocwebchuan.com](https://hocwebchuan.com/tutorial/reactjs/reactjs_express_api.php)
 
 ## Table of Contents
 - [Available Scripts](#available-scripts)
@@ -12,7 +13,7 @@ Tutorial avaiable at [https://hocwebchuan.com](https://hocwebchuan.com/tutorial/
 - [Folder Structure](#folder-structure)
 - [Something Missing?](#something-missing)
 
-## Available Scripts
+## Installation and Execution
 In the project directory, follow these steps:
 
 ### Install Express.js
@@ -88,7 +89,5 @@ React-server-and-client-master/
   README.md
 ```
 
-## Something missing?
-
-If you have any problems, [let me know](https://github.com/hocwebchuan/React-server-and-client/issues).<br>
-Thanks for using it!
+## Basic use-case
+It is important to note that this is only a simple implementation of a web app, solely to present how we can interact with database system in softwares. Therefore, as of December, the current user interface for the app is very simple. It has a single page with project information, a list of books fetched from the database, as well as an option to add books into the database. The book list can be searched and sorted pretty efficiently, while the book insertion popup handles exception and expectation quite satisfactorily. Obviously, more is needed to render a full library management application, such as user login and profiling, book borrowing and returning, as well as more sophisticated query and update options.
